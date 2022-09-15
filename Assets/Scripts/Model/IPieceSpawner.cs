@@ -2,11 +2,11 @@ namespace ToonBlast.Model {
 
 	public interface IPieceSpawner {
 		
-		IPiece CreateBasicPiece();
+		IGridPiece CreateBasicPiece();
 		
-		IPiece CreateBasicPiece(int pieceType);
+		IGridPiece CreateBasicPiece(int pieceType);
 
-		IPiece CteatSpecialPiece();
+		IGridPiece CteatSpecialPiece();
 	}
 
 }

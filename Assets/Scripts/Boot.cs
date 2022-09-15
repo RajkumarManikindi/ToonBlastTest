@@ -17,7 +17,7 @@ namespace ToonBlast {
 
 			
 			var pieceSpawner = new PieceSpawner();
-			var board = Board.Create(boardDefinition, pieceSpawner);
+			var board = BoardGrid.Create(boardDefinition, pieceSpawner);
 			
 			
 			boardRenderer.Initialize(board);

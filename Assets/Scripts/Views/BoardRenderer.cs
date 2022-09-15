@@ -8,26 +8,26 @@ namespace ToonBlast.ViewComponents {
 		[SerializeField] private PieceTypeDatabase pieceTypeDatabase;
 		[SerializeField] private VisualPiece visualPiecePrefab;
 		[SerializeField] private GameManager gameManager;
-		private Board board;
+		private BoardGrid boardGrid;
 		private float lastClick;
 		private const float PieceFallSpeed = 0.6f;
-		public void Initialize(Board board) {
-			this.board = board;
+		public void Initialize(BoardGrid boardGrid) {
+			this.boardGrid = boardGrid;
 
 			CenterCamera();
 			CreateVisualPiecesFromBoardState();
 		}
 
 		private void CenterCamera() {
-			Camera.main.transform.position = new Vector3((board.Width-1)*0.5f,-(board.Height-1)*0.5f);
+			Camera.main.transform.position = new Vector3((boardGrid.Width-1)*0.5f,-(boardGrid.Height-1)*0.5f);
 		}
 
 		private void CreateVisualPiecesFromBoardState() {
 			DestroyVisualPieces();
 
-			foreach (var pieceInfo in board.IteratePieces()) {
+			foreach (var pieceInfo in boardGrid.IteratePieces()) {
 				
-				var visualPiece = CreateVisualPiece(pieceInfo.piece);
+				var visualPiece = CreateVisualPiece(pieceInfo.gridPiece);
 				visualPiece.transform.localPosition = LogicPosToVisualPos(pieceInfo.pos.x, pieceInfo.pos.y);
 
 			}
@@ -49,17 +49,17 @@ namespace ToonBlast.ViewComponents {
 
 		}
 
-		private VisualPiece CreateVisualPiece(IPiece piece) {
+		private VisualPiece CreateVisualPiece(IGridPiece gridPiece) {
 			
 			var pieceObject = Instantiate(visualPiecePrefab, transform, true);
 			var sprite = pieceTypeDatabase.GetSpecialSpriteForPieceType(0);
-			if (piece.powerPiece) 
+			if (gridPiece.powerPiece) 
 			{
-				sprite = pieceTypeDatabase.GetSpecialSpriteForPieceType(piece.pieceTypeNumber);
+				sprite = pieceTypeDatabase.GetSpecialSpriteForPieceType(gridPiece.pieceTypeNumber);
 			}
 			else
 			{
-				sprite = pieceTypeDatabase.GetSpriteForPieceType(piece.pieceTypeNumber);
+				sprite = pieceTypeDatabase.GetSpriteForPieceType(gridPiece.pieceTypeNumber);
 			}
 
 			pieceObject.SetSprite(sprite);
@@ -74,7 +74,7 @@ namespace ToonBlast.ViewComponents {
 		}
 
 		private void Update() {
-			if (GameManager.gameState != GameState.Started || board == null) {
+			if (GameManager.gameState != GameState.Started || boardGrid == null) {
 				return;
 			}
 
@@ -88,12 +88,12 @@ namespace ToonBlast.ViewComponents {
 				lastClick = Time.time;
 				var pos = ScreenPosToLogicPos(Input.mousePosition.x, Input.mousePosition.y);
 
-				if (!board.IsWithinBounds(pos.x, pos.y)) return;
+				if (!boardGrid.IsWithinBounds(pos.x, pos.y)) return;
 				//Adding the connected piece to GameManager to find all the pieces count
 				var connections = new ResolveResult();
-				board.FindAndRemoveConnectedAt(pos.x, pos.y, connections);
+				boardGrid.FindAndRemoveConnectedAt(pos.x, pos.y, connections);
 				gameManager.AddToCollectedPiece(connections, ref pieceTypeDatabase);
-				var result = board.Resolve();
+				var result = boardGrid.Resolve();
 					
 				DestroyVisualPieces();
 				UpdateBoardVisuals(result);
@@ -107,10 +107,10 @@ namespace ToonBlast.ViewComponents {
 		/// <param name="result"></param>
 		private void UpdateBoardVisuals(ResolveResult result)
 		{
-			foreach (var pieceInfo in board.IteratePieces()) {
-				var visualPiece = CreateVisualPiece(pieceInfo.piece).transform;
-				if (result.changes.ContainsKey(pieceInfo.piece)) {
-					var selectedPiece = result.changes[pieceInfo.piece];
+			foreach (var pieceInfo in boardGrid.IteratePieces()) {
+				var visualPiece = CreateVisualPiece(pieceInfo.gridPiece).transform;
+				if (result.changes.ContainsKey(pieceInfo.gridPiece)) {
+					var selectedPiece = result.changes[pieceInfo.gridPiece];
 					var fromVal = LogicPosToVisualPos(selectedPiece.FromPos.x,selectedPiece.FromPos.y);
 					fromVal.y += selectedPiece.WasCreated ?  selectedPiece.CreationTime : 0;
 					visualPiece.localPosition = fromVal;

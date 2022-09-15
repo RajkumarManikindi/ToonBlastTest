@@ -1,7 +1,7 @@
 namespace ToonBlast.Model {
 
 	public struct PiecePosition {
-		public IPiece piece;
+		public IGridPiece gridPiece;
 		public BoardPos pos;
 	}
 

@@ -7,43 +7,43 @@ namespace ToonBlast.Model {
 		private const int MinSpecialPieceType = (int) SpecialPieceTypes.HorizontalPower;
 		private const int MaxSpecialPieceType = (int) SpecialPieceTypes.BombPower + 1;
 
-		public IPiece CreateBasicPiece() {
+		public IGridPiece CreateBasicPiece() {
 			int pieceType = UnityEngine.Random.Range(MinPieceType,MaxPieceType);
 			return CreateBasicPiece(pieceType);
 		}
 
-		public IPiece CreateBasicPiece(int pieceType)
+		public IGridPiece CreateBasicPiece(int pieceType)
 		{
-			IPiece piece = new NormalPiece();
-			piece = new NormalPiece(pieceType);
+			IGridPiece gridPiece = new NormalGridPiece();
+			gridPiece = new NormalGridPiece(pieceType);
 	      
-			return piece;
+			return gridPiece;
 		}
 
 		private int RandomSpecialPiece() {
 			return UnityEngine.Random.Range(MinSpecialPieceType, MaxSpecialPieceType);
 		}
 
-		public IPiece CteatSpecialPiece( )
+		public IGridPiece CteatSpecialPiece( )
 		{
 			int pieceType = RandomSpecialPiece();
-			IPiece piece = new NormalPiece();
+			IGridPiece gridPiece = new NormalGridPiece();
 	        
 			switch (pieceType)
 			{
 				case 0:
-					piece = new HorizontalPowerPiece(pieceType);
+					gridPiece = new HorizontalPowerGridPiece(pieceType);
 					break;
 				case 1:
-					piece = new VerticalPowerPiece(pieceType);
+					gridPiece = new VerticalPowerGridPiece(pieceType);
 					break;
 				case 2:
-					piece = new BombPowerPiece(pieceType);
+					gridPiece = new BombPowerGridPiece(pieceType);
 					break;
 		        
 			}
 			
-			return piece;
+			return gridPiece;
 		}
 	}
 
