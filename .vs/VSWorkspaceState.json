@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Assets",
+    "\\Assets\\Scripts",
+    "\\Assets\\Scripts\\Model",
+    "\\Assets\\Scripts\\Tests",
+    "\\Assets\\Scripts\\Tests\\UnitTests",
+    "\\Assets\\Scripts\\Tests\\UnitTests\\Editor",
+    "\\Assets\\Scripts\\Views"
+  ],
+  "SelectedNode": "\\Assets\\Scripts\\Model\\Board.cs",
+  "PreviewInSolutionExplorer": false
+}
