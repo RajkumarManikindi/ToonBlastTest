@@ -2,43 +2,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Tween : MonoBehaviour
+public class Tween 
 {
-    public static Tween Instance { get; private set; }
-
-    private void Awake() { 
-        if (Instance != null && Instance != this) { 
-            Destroy(this.gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
-    }
-
-    public void FadeImage(Image image, Color targetColor,float speed, float delay = 0)
+    public static void FadeImage(Image image, Color targetColor,float speed, float delay = 0, MonoBehaviour monoBehaviour = null)
     {
         if(image == null)
             return;
         
-        StartCoroutine(FadeImageColor(image, targetColor, speed, delay));
+        monoBehaviour.StartCoroutine(FadeImageColor(image, targetColor, speed, delay));
     }
 
-    public void Move(Transform piece, Vector3 targetPosition, float speed, float delay = 0)
+    public static void Move(Transform piece, Vector3 targetPosition, float speed, float delay = 0, MonoBehaviour monoBehaviour = null)
     {
         if(piece == null)
             return;
-        StartCoroutine(MovePiece( piece, targetPosition, speed, delay));
+        monoBehaviour.StartCoroutine(MovePiece( piece, targetPosition, speed, delay));
     }
     
-    public void MoveParticle(RectTransform piece, Vector3 targetPosition, float speed, float delay = 0)
+    public static void MoveParticle(RectTransform piece, Vector3 targetPosition, float speed, float delay = 0, MonoBehaviour monoBehaviour = null)
     {
         if(piece == null)
             return;
-        StartCoroutine(MoveParticlePiece( piece, targetPosition, speed, delay));
+        monoBehaviour.StartCoroutine(MoveParticlePiece( piece, targetPosition, speed, delay));
     }
         
-    private static IEnumerator MovePiece(Transform pieceTransform, Vector3 targetPos, float duration, float delay = 0)
+    private static IEnumerator MovePiece(Transform pieceTransform, Vector3 targetPos, float duration, float delay = 0, MonoBehaviour monoBehaviour = null)
     {
         if (delay > 0) {
             yield return new WaitForSeconds(delay) ; 

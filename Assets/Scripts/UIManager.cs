@@ -63,13 +63,13 @@ namespace ToonBlast
             pos.y += 500;
             title.transform.localPosition = pos;
             pos.y -= 500;
-            Tween.Instance.Move(title.transform, pos,1.8f, 0.5f);
+            Tween.Move(title.transform, pos,1.8f, 0.5f, this);
 
             pos = startButton.transform.localPosition;
             pos.y -= 200;
             startButton.transform.localPosition = pos;
             pos.y += 200;
-            Tween.Instance.Move(startButton.transform, pos,1.8f, 0.5f);
+            Tween.Move(startButton.transform, pos,1.8f, 0.5f, this);
         }
         
         /// <summary>
@@ -81,12 +81,12 @@ namespace ToonBlast
             var currentLocation = levelFailPage.transform.position;
             currentLocation.y += 10;
             levelFailPage.transform.GetChild(0).position = currentLocation;
-            Tween.Instance.Move(levelFailPage.transform.GetChild(0).transform, Vector3.zero, 1f , 1.3f );
+            Tween.Move(levelFailPage.transform.GetChild(0).transform, Vector3.zero, 1f , 1.3f, this );
             levelFailPage.SetActive(true);
             
             var animImageColor = levelFailPage.GetComponent<Image>();
             animImageColor.color = Color.clear;
-            Tween.Instance.FadeImage(animImageColor,new Color(0,0,0,0.75f),0.5f,1f);
+            Tween.FadeImage(animImageColor,new Color(0,0,0,0.75f),0.5f,1f, this);
              
         }
         /// <summary>
@@ -98,12 +98,12 @@ namespace ToonBlast
             var currentLocation = levelWinPage.transform.GetChild(0).position;
             currentLocation.y += 10;
             levelWinPage.transform.GetChild(0).position = currentLocation;
-            Tween.Instance.Move(levelWinPage.transform.GetChild(0).transform, Vector3.zero, 1f , 1.3f );
+            Tween.Move(levelWinPage.transform.GetChild(0).transform, Vector3.zero, 1f , 1.3f, this );
             levelWinPage.SetActive(true);
             
             var animImageColor = levelWinPage.GetComponent<Image>();
             animImageColor.color = Color.clear;
-            Tween.Instance.FadeImage(animImageColor,new Color(0,0,0,0.75f),0.5f,1f);
+            Tween.FadeImage(animImageColor,new Color(0,0,0,0.75f),0.5f,1f,this);
            
         }
         

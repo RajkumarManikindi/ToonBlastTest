@@ -115,7 +115,7 @@ namespace ToonBlast.ViewComponents {
 					fromVal.y += selectedPiece.WasCreated ?  selectedPiece.CreationTime : 0;
 					visualPiece.localPosition = fromVal;
 					var toVal = LogicPosToVisualPos(selectedPiece.ToPos.x,selectedPiece.ToPos.y);
-					Tween.Instance.Move(visualPiece, toVal, PieceFallSpeed);
+					Tween.Move(visualPiece, toVal, PieceFallSpeed, 0,  this);
 				}else {
 					visualPiece.localPosition = LogicPosToVisualPos(pieceInfo.pos.x, pieceInfo.pos.y);
 				}

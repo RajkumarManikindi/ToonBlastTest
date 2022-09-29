@@ -118,7 +118,7 @@ namespace ToonBlast
                 particleUIPool[particlePoolCount].GetComponent<Image>().sprite = pieceTypeDatabase.GetSpriteForPieceType(type);
                 
                 var finalPosition = targetRect.parent.localPosition + targetRect.localPosition;
-                Tween.Instance.MoveParticle( particleUIPool[particlePoolCount], new Vector3(finalPosition.x, finalPosition.y,10), waitTime, 0);
+                Tween.MoveParticle( particleUIPool[particlePoolCount], new Vector3(finalPosition.x, finalPosition.y,10), waitTime, 0, this);
             }
             particlePoolCount++;
         }
