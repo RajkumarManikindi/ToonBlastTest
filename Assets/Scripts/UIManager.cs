@@ -34,7 +34,7 @@ namespace ToonBlast
         [Header("UI element target for updating Current level value")]
         [SerializeField] private Text levelInfoText;
         
-        private void Start()
+        private void Awake()
         {
             EventTriggers.PlayMenuAnimation += MenuAnimation;
             EventTriggers.PlayGameWin += GameWinAnimation;

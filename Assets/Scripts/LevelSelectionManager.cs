@@ -30,7 +30,7 @@ namespace ToonBlast
         /// <summary>
         /// Requirements are used for the level
         /// </summary>
-        public static readonly List<Requirement> Requirements = new List<Requirement>();
+        public readonly List<Requirement> Requirements = new List<Requirement>();
         
         public static LevelSelectionManager Instance { get; private set; }
 
@@ -58,7 +58,7 @@ namespace ToonBlast
         /// <summary>
         /// Here we are resetting all requirements 
         /// </summary>
-        public static void ClearRequirements()
+        public void ClearRequirements()
         {
             if (Requirements.Count < 1) {
                 return;
@@ -69,7 +69,7 @@ namespace ToonBlast
             ResetRequirements();
         }
 
-        private static void ResetRequirements()
+        private void ResetRequirements()
         {
             if (Requirements.Count < 1) {
                 return;
@@ -83,7 +83,7 @@ namespace ToonBlast
         /// <summary>
         /// Fetching Position of the Requirement to animate particle element 
         /// </summary>
-        public static Transform GetPositionForRequirement(int type)
+        public Transform GetPositionForRequirement(int type)
         {
             var selectedRequirement =  Requirements.Where(i => i.pieceColorNumber == type);
             return selectedRequirement.Select(iRequirement => iRequirement.transform).FirstOrDefault();
