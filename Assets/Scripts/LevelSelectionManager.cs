@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Model;
 using UnityEngine;
 using UnityEngine.UI;
 using ToonBlast.Model;
@@ -27,10 +28,7 @@ namespace ToonBlast
         [Header("Level Selection Page Elements")]
         [SerializeField] private GameObject levelsPageParent;
 
-        /// <summary>
-        /// Requirements are used for the level
-        /// </summary>
-        public readonly List<Requirement> Requirements = new List<Requirement>();
+       
         
         public static LevelSelectionManager Instance { get; private set; }
 
@@ -58,57 +56,7 @@ namespace ToonBlast
         /// <summary>
         /// Here we are resetting all requirements 
         /// </summary>
-        public void ClearRequirements()
-        {
-            if (Requirements.Count < 1) {
-                return;
-            }
-            foreach (var t in Requirements) {
-                t.transform.gameObject.SetActive(false);
-            }
-            ResetRequirements();
-        }
-
-        private void ResetRequirements()
-        {
-            if (Requirements.Count < 1) {
-                return;
-            }
-            foreach (var t in Requirements) {
-                t.ResetCurrentProgress();
-            }
-
-        }
-
-        /// <summary>
-        /// Fetching Position of the Requirement to animate particle element 
-        /// </summary>
-        public Transform GetPositionForRequirement(int type)
-        {
-            var selectedRequirement =  Requirements.Where(i => i.pieceColorNumber == type);
-            return selectedRequirement.Select(iRequirement => iRequirement.transform).FirstOrDefault();
-        }
-        
-        private void SetUpLevelRequirements()
-        {
-            var colorTarget = levelEditor.levels[CurrentLevel].colorTargetCount;
-            ClearRequirements();
-            for (var i = 0; i < colorTarget.Count; i++)
-            {
-                if (colorTarget[i] <= 0) continue;
-                Requirement piece = null;
-                if (Requirements.Count > i) {
-                    piece = Requirements[i];
-                }else{
-                    piece = Instantiate(requirement, levelRequirementLocation.transform).GetComponent<Requirement>();
-                    Requirements.Add(piece);
-                }
-                piece.gameObject.SetActive(true);
-                piece.SetUpValues(pieceTypeDatabase.GetSpriteForPieceType(i), i, colorTarget[i]);
-            }
-            levelRequirementLocation.gameObject.SetActive(true);
-        }
-        
+       
         
         /// <summary>
         /// When we select level from LevelSelection page
@@ -139,12 +87,12 @@ namespace ToonBlast
 
         public void ResetLevel()
         {
-            ResetRequirements();
+            RequirementsManager.ResetRequirements();
             board.SetUp();
         }
         public void NextLevel()
         {
-            ClearRequirements();
+            RequirementsManager.ClearRequirements();
             CurrentLevel = ++CurrentLevel <levelEditor.levels.Count? CurrentLevel : 0;
             OnLevelSelect(CurrentLevel+1);
         }
@@ -152,6 +100,26 @@ namespace ToonBlast
         public int GetTotalMovesCount()
         {
             return levelEditor.levels[CurrentLevel].targetMoves;
+        }
+
+        public void SetUpLevelRequirements()
+        {
+            var colorTarget = levelEditor.levels[CurrentLevel].colorTargetCount;
+            RequirementsManager.ClearRequirements();
+            for (var i = 0; i < colorTarget.Count; i++)
+            {
+                if (colorTarget[i] <= 0) continue;
+                Requirement piece = null;
+                if (RequirementsManager.Requirements.Count > i) {
+                    piece = RequirementsManager.Requirements[i];
+                }else{
+                    piece = Instantiate(requirement, levelRequirementLocation.transform).GetComponent<Requirement>();
+                    RequirementsManager.Requirements.Add(piece);
+                }
+                piece.gameObject.SetActive(true);
+                piece.SetUpValues(pieceTypeDatabase.GetSpriteForPieceType(i), i, colorTarget[i]);
+            }
+            levelRequirementLocation.gameObject.SetActive(true);
         }
     }
 }

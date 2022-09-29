@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Model;
 using ToonBlast.Model;
 using UnityEngine;
 using UnityEngine.UI;
@@ -72,7 +73,7 @@ namespace ToonBlast
                 playerScore[LevelSelectionManager.CurrentLevel].individualColorScore[piece.pieceTypeNumber]++;
                 
                 //Checking piece is matching to Requirement and adding it to Requirement
-                foreach (var iRequirement in LevelSelectionManager.Instance.Requirements.Where(iRequirement => iRequirement.pieceColorNumber == piece.pieceTypeNumber &&
+                foreach (var iRequirement in RequirementsManager.Requirements.Where(iRequirement => iRequirement.pieceColorNumber == piece.pieceTypeNumber &&
                              iRequirement.gameObject.activeSelf)) {
                     iRequirement.PieceCollected(waitTime);
                 }   
@@ -92,7 +93,7 @@ namespace ToonBlast
         /// <returns></returns>
         private static bool CheckGameWin()
         {
-            return LevelSelectionManager.Instance.Requirements.Where(iRequirement => iRequirement.gameObject.activeInHierarchy).All(irequirement => irequirement.IsCompleted);
+            return RequirementsManager.Requirements.Where(iRequirement => iRequirement.gameObject.activeInHierarchy).All(irequirement => irequirement.IsCompleted);
         }
         /// <summary>
         /// When we need Particles we can send position, piece type, and what is the wait time for particle
@@ -110,7 +111,7 @@ namespace ToonBlast
             particlePool[particlePoolCount].transform.position = pos;
             particlePool[particlePoolCount].GetComponent<ParticleSystem>().Play();
             
-            var targetRect  = LevelSelectionManager.Instance.GetPositionForRequirement(type)?.GetComponent<RectTransform>();
+            var targetRect  = RequirementsManager.GetPositionForRequirement(type)?.GetComponent<RectTransform>();
             if(targetRect != null && targetRect.gameObject.activeSelf && !targetRect.GetComponent<Requirement>().IsCompletedForUI) {
                 
                 particleUIPool[particlePoolCount].transform.position = pos;
@@ -158,7 +159,7 @@ namespace ToonBlast
         /// </summary>
         public void GameRestart() {
             currentMoves = 0;
-            LevelSelectionManager.Instance.ClearRequirements();
+            RequirementsManager.ClearRequirements();
         }
 
         public void LevelRestart()

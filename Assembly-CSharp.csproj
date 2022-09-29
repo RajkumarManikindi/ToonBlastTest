@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\Pieces\VerticalPowerGridPiece.cs" />
      <Compile Include="Assets\Scripts\Model\JsonData.cs" />
      <Compile Include="Assets\Scripts\Pieces\HorizontalPowerGridPiece.cs" />
+     <Compile Include="Assets\Scripts\Model\RequirementsManager.cs" />
      <None Include="Assets\Levels.txt" />
      <None Include="Assets\Match3GameScore.txt" />
  <Reference Include="UnityEngine">
